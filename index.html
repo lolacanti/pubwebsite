@@ -784,6 +784,20 @@
       box-shadow: 0 4px 0 var(--ink);
     }
 
+
+    .trivia-blurb {
+      background: var(--mustard);
+      color: var(--ink);
+      border: 1.5px solid var(--ink);
+      padding: 0.9rem 1rem;
+      margin-bottom: 1.4rem;
+      font-family: 'Spectral', serif;
+      font-size: 0.92rem;
+      line-height: 1.45;
+      box-shadow: 3px 3px 0 var(--ink);
+      transform: rotate(-0.5deg);
+    }
+    .trivia-blurb strong { font-family: 'Alfa Slab One', serif; font-size: 0.88em; }
     .field {
       margin-bottom: 1.1rem;
     }
@@ -1071,6 +1085,96 @@
     /* ============================================
        FOOTER
        ============================================ */
+
+    /* ============================================
+       MOBILE / RESPONSIVE
+       ============================================ */
+    @media (max-width: 720px) {
+      section { padding: 4rem 1.25rem; }
+      .hero { padding: 2.5rem 1rem 4rem; min-height: auto; }
+      .hero-grid { min-height: 60vh; }
+
+      /* Hide middle-band stickers so they don't sit on top of the title */
+      .sticker.mobile-hide { display: none; }
+      /* Shrink remaining stickers + tuck them right into the corners */
+      .sticker { transform: scale(0.62) rotate(var(--mobile-rot, 0deg)); transform-origin: center; }
+      .sticker svg { display: block; }
+
+      /* Hide scroll hint on phones — touch users get it */
+      .hero-hint { display: none; }
+
+      /* Title gets a bit less line-height to feel tighter */
+      .hero-title { font-size: clamp(3.4rem, 16vw, 5.5rem); line-height: 0.95; }
+      .hero-title { text-shadow: 4px 4px 0 var(--ink); }
+      .hero-eyebrow { font-size: 1.4rem; }
+      .hero-sub { font-size: 0.78rem; padding: 0 0.5rem; }
+
+      /* Stack hero CTAs vertically */
+      .hero-cta {
+        display: flex;
+        flex-direction: column;
+        gap: 0.7rem;
+        width: 100%;
+        max-width: 280px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .hero-cta .btn {
+        width: 100%;
+        text-align: center;
+        font-size: 0.88rem;
+        padding: 0.85rem 1rem;
+      }
+
+      .section-title { font-size: clamp(2rem, 8vw, 3rem); }
+
+      /* Polaroids 2-col on phones (was auto-fit 200px which sometimes gave 1 col) */
+      .polaroids {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem 1rem;
+        padding-top: 1rem;
+      }
+      .polaroid { padding: 10px 10px 36px; }
+      .polaroid .name { font-size: 1.2rem; }
+      .polaroid .role { font-size: 0.62rem; }
+
+      /* Hours card + menu */
+      .hours-card { padding: 1.4rem; }
+      .menu-panel { padding: 1.4rem 1.2rem; }
+      .menu-item-name { font-size: 0.95rem; }
+      .menu-item-price { font-size: 0.85rem; }
+
+      /* Booking slip */
+      .slip { padding: 1.5rem 1.2rem; }
+      .req-tabs {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        margin-left: -1.2rem;
+        margin-right: -1.2rem;
+        padding: 0 1.2rem 6px;
+        scrollbar-width: none;
+      }
+      .req-tabs::-webkit-scrollbar { display: none; }
+      .req-tab {
+        flex: 0 0 auto;
+        min-width: 90px;
+        font-size: 0.7rem;
+        padding: 8px 10px;
+      }
+
+      /* Contact section */
+      .map { padding: 1.2rem; }
+
+      /* Footer */
+      .footer-wordmark { font-size: clamp(1.8rem, 11vw, 3rem); }
+      .footer-tagline { font-size: 1.1rem; }
+    }
+
+    @media (max-width: 420px) {
+      .polaroids { grid-template-columns: 1fr; gap: 2.5rem; max-width: 240px; margin-left: auto; margin-right: auto; }
+      .req-tab { min-width: 80px; }
+      .hero-title { font-size: clamp(3rem, 18vw, 4.5rem); }
+    }
     footer {
       background: var(--ink);
       color: var(--foam);
@@ -1197,7 +1301,7 @@
         </svg>
       </div>
 
-      <div class="sticker" style="top: 46%; left: 0%; --hover-rot: 6deg; transform: rotate(6deg);">
+      <div class="sticker mobile-hide" style="top: 46%; left: 0%; --hover-rot: 6deg; transform: rotate(6deg);">
         <svg width="150" height="150" viewBox="0 0 150 150" xmlns="http://www.w3.org/2000/svg">
           <!-- beer mug -->
           <path d="M 35 40 L 30 130 Q 30 138 38 138 L 92 138 Q 100 138 100 130 L 95 40 Z" fill="#414b96" stroke="#1c160f" stroke-width="3"/>
@@ -1213,7 +1317,7 @@
         </svg>
       </div>
 
-      <div class="sticker" style="top: 42%; right: 0%; --hover-rot: -10deg; transform: rotate(-10deg);">
+      <div class="sticker mobile-hide" style="top: 42%; right: 0%; --hover-rot: -10deg; transform: rotate(-10deg);">
         <svg width="160" height="160" viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <path id="circ2" d="M 80 80 m -58 0 a 58 58 0 1 1 116 0 a 58 58 0 1 1 -116 0"/>
@@ -1253,7 +1357,7 @@
         </svg>
       </div>
 
-      <div class="sticker" style="top: 22%; left: 5%; --hover-rot: 18deg; transform: rotate(18deg);">
+      <div class="sticker mobile-hide" style="top: 22%; left: 5%; --hover-rot: 18deg; transform: rotate(18deg);">
         <svg width="90" height="120" viewBox="0 0 90 120" xmlns="http://www.w3.org/2000/svg">
           <!-- bottle cap -->
           <circle cx="45" cy="45" r="40" fill="#414b96" stroke="#1c160f" stroke-width="3"/>
@@ -1525,6 +1629,7 @@
           <button type="button" class="req-tab active" data-req="event">Event</button>
           <button type="button" class="req-tab"        data-req="keg">Keg</button>
           <button type="button" class="req-tab"        data-req="dj">DJ Slot</button>
+          <button type="button" class="req-tab"        data-req="trivia">Trivia</button>
           <button type="button" class="req-tab"        data-req="other">Other</button>
         </div>
 
@@ -1730,6 +1835,32 @@
           </div>
         </div>
 
+        <div class="req-content hidden" data-content="trivia">
+          <p class="trivia-blurb">
+            <strong>Pub Trivia is Wednesdays at 10pm</strong> — open to all ages.
+            Hosts get a <strong>$30 tab</strong> while hosting.
+            Priority goes to bartenders &amp; upperclassmen, but <em>anyone</em> can sign up.
+          </p>
+          <div class="field-row">
+            <div class="field">
+              <label>Res College</label>
+              <input type="text" name="trivia-college">
+            </div>
+            <div class="field">
+              <label>Graduation year</label>
+              <input type="text" name="trivia-grad" placeholder="e.g. 2027">
+            </div>
+          </div>
+          <div class="field">
+            <label>Topics you'd cover</label>
+            <textarea name="trivia-topics" placeholder="Just give us an idea. People usually do 4–6 sections, max 40 questions. Topics can't be super niche (e.g. 'all about John from Lovett')"></textarea>
+          </div>
+          <div class="field">
+            <label>Date(s) you're available</label>
+            <textarea name="trivia-dates" placeholder="e.g. Oct 9, Oct 23, or any Wednesday in November"></textarea>
+          </div>
+        </div>
+
         <div class="req-content hidden" data-content="other">
           <div class="field">
             <label>What's up?</label>
@@ -1894,110 +2025,126 @@
     });
 
     /* ============================================
-       Submit handler — Formsubmit.co AJAX endpoint.
-       Routes each request type to the right manager.
-       No email client opens; user just sees a confirmation toast.
-       NOTE: each recipient must one-time confirm via Formsubmit
-       (see deploy notes).
+       Submit handler — Web3Forms API
+       (Reliable, free, no email-confirmation dance.)
+
+       SETUP (one-time):
+         1. Go to https://web3forms.com
+         2. Enter pubatrice@gmail.com → "Create Access Key"
+         3. Check the gmail inbox for the access key (arrives in <30 sec)
+         4. Paste it below as WEB3FORMS_KEY
+         5. Redeploy (git push to GitHub, Vercel auto-redeploys)
+
+       The free tier allows custom recipients via the `to` field,
+       so we route each request type to the right manager.
        ============================================ */
-    function submitBooking(e) {
+    const WEB3FORMS_KEY = 'PASTE_YOUR_WEB3FORMS_ACCESS_KEY_HERE';
+
+    async function submitBooking(e) {
       e.preventDefault();
       const form = e.target;
       const activeTab = document.querySelector('.req-tab.active').dataset.req;
 
       const recipients = {
-        event: 'ml186@rice.edu',     // Matt — events
-        dj:    'ml186@rice.edu',     // Matt — events
-        keg:   'ntp5@rice.edu',      // Noah — product / kegs
-        other: 'pubatrice@gmail.com' // general inbox
+        event:  'ml186@rice.edu',      // Matt — events
+        dj:     'ml186@rice.edu',      // Matt — events
+        trivia: 'ml186@rice.edu',      // Matt — events (trivia falls here)
+        keg:    'ntp5@rice.edu',       // Noah — kegs
+        other:  'pubatrice@gmail.com', // general inbox
       };
-      const to = recipients[activeTab];
+      const labels = {
+        event: 'EVENT', dj: 'DJ SLOT', keg: 'KEG ORDER',
+        trivia: 'TRIVIA HOSTING', other: 'INQUIRY',
+      };
+      const to    = recipients[activeTab];
+      const label = labels[activeTab];
 
-      const data = new FormData(form);
-      const name = (data.get('name') || '').trim();
+      const data  = new FormData(form);
+      const name  = (data.get('name')  || '').trim();
       const email = (data.get('email') || '').trim();
 
-      const labels = {
-        event: 'EVENT', dj: 'DJ SLOT', keg: 'KEG ORDER', other: 'INQUIRY'
-      };
+      // Build Web3Forms payload as multipart/form-data
+      const payload = new FormData();
+      payload.append('access_key',   WEB3FORMS_KEY);
+      payload.append('to',           to);          // custom recipient
+      payload.append('from_name',    'Pub at Rice');
+      payload.append('subject',      `[Pub at Rice] ${label} request — ${name || 'no name'}`);
+      if (email) payload.append('replyto', email);
 
-      // Build a readable payload
-      const payload = {
-        _subject: `[Pub at Rice] ${labels[activeTab]} request — ${name || 'no name'}`,
-        _captcha: 'false',
-        _template: 'table',
-        'Request Type': labels[activeTab],
-        'Name': name,
-        'Email / NetID': email,
-        'Org / College': (data.get('org')   || '').trim(),
-        'Phone':         (data.get('phone') || '').trim(),
-      };
+      // Common fields
+      payload.append('Request Type',  label);
+      payload.append('Name',          name);
+      payload.append('Email / NetID', email);
+      payload.append('Org / College', (data.get('org')   || '').trim());
+      payload.append('Phone',         (data.get('phone') || '').trim());
 
+      // Type-specific fields
       if (activeTab === 'event') {
-        Object.assign(payload, {
-          'Date wanted':       data.get('event-date'),
-          'Expected headcount': data.get('event-count'),
-          'Start time':         data.get('event-start'),
-          'End time':           data.get('event-end'),
-          'Event details':      data.get('event-details'),
-        });
+        payload.append('Date wanted',       data.get('event-date')    || '');
+        payload.append('Expected headcount', data.get('event-count')  || '');
+        payload.append('Start time',         data.get('event-start')  || '');
+        payload.append('End time',           data.get('event-end')    || '');
+        payload.append('Event details',      data.get('event-details') || '');
       } else if (activeTab === 'keg') {
-        Object.assign(payload, {
-          'Date needed':    data.get('keg-date'),
-          'Number of kegs': data.get('keg-count'),
-          'Order':          data.get('keg-beer'),
-        });
+        payload.append('Date needed',    data.get('keg-date')  || '');
+        payload.append('Number of kegs', data.get('keg-count') || '');
+        payload.append('Order',          data.get('keg-beer')  || '');
       } else if (activeTab === 'dj') {
-        Object.assign(payload, {
-          'DJ name / handle':  data.get('dj-name'),
-          'Which Thursday':    data.get('dj-date'),
-          'Soundcloud/Mixcloud': data.get('dj-link'),
-          'Genre':              data.get('dj-genre'),
-          'Notes':              data.get('dj-notes'),
-        });
+        payload.append('DJ name / handle',   data.get('dj-name')  || '');
+        payload.append('Which Thursday',     data.get('dj-date')  || '');
+        payload.append('Soundcloud/Mixcloud', data.get('dj-link') || '');
+        payload.append('Genre',               data.get('dj-genre') || '');
+        payload.append('Notes',               data.get('dj-notes') || '');
+      } else if (activeTab === 'trivia') {
+        payload.append('Res College',     data.get('trivia-college') || '');
+        payload.append('Graduation year', data.get('trivia-grad')    || '');
+        payload.append('Topics',          data.get('trivia-topics')  || '');
+        payload.append('Availability',    data.get('trivia-dates')   || '');
       } else {
-        payload['Details'] = data.get('other-details');
+        payload.append('Details', data.get('other-details') || '');
       }
-
-      if (email) payload['_replyto'] = email;
 
       const toast = document.getElementById('toast');
       const submitBtn = form.querySelector('button[type="submit"]');
-      const originalBtn = submitBtn.textContent;
+      const originalLabel = submitBtn.textContent;
       submitBtn.disabled = true;
       submitBtn.textContent = 'sending...';
       toast.textContent = 'sending...';
       toast.classList.add('show');
 
-      fetch(`https://formsubmit.co/ajax/${to}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify(payload)
-      })
-      .then(r => r.json())
-      .then(res => {
-        const ok = res && (res.success === 'true' || res.success === true);
-        if (ok) {
+      // Sanity check the access key
+      if (!WEB3FORMS_KEY || WEB3FORMS_KEY.includes('PASTE_YOUR')) {
+        console.error('[Pub] Web3Forms access key is missing. Get one at https://web3forms.com and paste it into WEB3FORMS_KEY.');
+        toast.textContent = 'form not configured yet — DM us on IG';
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalLabel;
+        setTimeout(() => toast.classList.remove('show'), 4500);
+        return;
+      }
+
+      try {
+        const r = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          body: payload,
+        });
+        const res = await r.json();
+        console.log('[Pub] Form response:', res);
+        if (res && (res.success === true || res.success === 'true')) {
           toast.textContent = 'request submitted ✓  we\'ll be in touch';
           form.reset();
         } else {
-          toast.textContent = 'hmm, that didn\'t go through — try again or DM us on IG';
+          toast.textContent = `oops — ${res.message || 'try again'}`;
         }
+      } catch (err) {
+        console.error('[Pub] Form submit error:', err);
+        toast.textContent = 'oops, network error — DM us on IG';
+      } finally {
         submitBtn.disabled = false;
-        submitBtn.textContent = originalBtn;
+        submitBtn.textContent = originalLabel;
         setTimeout(() => toast.classList.remove('show'), 4500);
-      })
-      .catch(err => {
-        console.error(err);
-        toast.textContent = 'hmm, that didn\'t go through — try again or DM us on IG';
-        submitBtn.disabled = false;
-        submitBtn.textContent = originalBtn;
-        setTimeout(() => toast.classList.remove('show'), 4500);
-      });
+      }
     }
+
 
     /* ============================================
        Draggable stickers — the fun bit
