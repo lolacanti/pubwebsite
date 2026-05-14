@@ -212,10 +212,10 @@
     }
     .hero-title {
       font-size: clamp(4rem, 13vw, 11rem);
-      color: var(--ink);
+      color: var(--dive-red);
       letter-spacing: -0.02em;
       line-height: 0.88;
-      text-shadow: 4px 4px 0 var(--mustard), 8px 8px 0 var(--dive-red);
+      text-shadow: 6px 6px 0 var(--ink);
     }
     .hero-title .amp {
       color: var(--dive-red);
@@ -224,7 +224,7 @@
       display: inline-block;
       transform: rotate(-8deg) translateY(-0.1em);
       font-size: 0.7em;
-      text-shadow: none;
+      text-shadow: 3px 3px 0 var(--ink);
     }
     .hero-sub {
       margin-top: 1.4rem;
@@ -277,7 +277,7 @@
 
     .hero-hint {
       position: absolute;
-      bottom: 1.5rem;
+      bottom: 2rem;
       left: 50%;
       transform: translateX(-50%);
       font-family: 'Caveat', cursive;
@@ -432,18 +432,22 @@
       margin: 0 -10px;
       position: relative;
     }
-    .hours-list li.today::before {
-      content: '←TODAY';
-      position: absolute;
-      left: calc(100% + 6px);
-      top: 50%;
-      transform: translateY(-50%) rotate(-3deg);
+    .hours-list li.today > span:last-child::after {
+      content: ' ← today';
       font-family: 'Caveat', cursive;
-      font-size: 1.1rem;
-      color: var(--dive-red);
-      text-decoration: none;
+      font-weight: 700;
+      font-size: 1.15rem;
+      color: var(--foam);
+      background: var(--dive-red);
+      padding: 1px 8px 2px;
+      margin-left: 8px;
+      display: inline-block;
+      transform: rotate(-3deg) translateY(-1px);
       letter-spacing: 0;
-      white-space: nowrap;
+      text-transform: none;
+      vertical-align: middle;
+      border: 1.5px solid var(--ink);
+      box-shadow: 1.5px 1.5px 0 var(--ink);
     }
     .hours-card .footnote {
       margin-top: 1.4rem;
@@ -1224,7 +1228,7 @@
         </svg>
       </div>
 
-      <div class="sticker" style="bottom: 8%; left: 4%; --hover-rot: 8deg; transform: rotate(8deg);">
+      <div class="sticker" style="top: 68%; left: 1%; --hover-rot: 8deg; transform: rotate(8deg);">
         <svg width="140" height="140" viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
           <!-- vinyl -->
           <circle cx="70" cy="70" r="62" fill="#1c160f" stroke="#1c160f" stroke-width="2"/>
@@ -1239,7 +1243,7 @@
         </svg>
       </div>
 
-      <div class="sticker" style="bottom: 10%; right: 4%; --hover-rot: -6deg; transform: rotate(-6deg);">
+      <div class="sticker" style="top: 64%; right: 1%; --hover-rot: -6deg; transform: rotate(-6deg);">
         <svg width="180" height="100" viewBox="0 0 180 100" xmlns="http://www.w3.org/2000/svg">
           <rect x="4" y="4" width="172" height="92" fill="#fbf6e8" stroke="#1c160f" stroke-width="3"/>
           <rect x="10" y="10" width="160" height="80" fill="none" stroke="#1c160f" stroke-width="1" stroke-dasharray="3 2"/>
@@ -1706,13 +1710,19 @@
               <input type="text" name="dj-name">
             </div>
             <div class="field">
+              <label>Which Thursday?</label>
+              <input type="date" name="dj-date">
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
               <label>Soundcloud / Mixcloud</label>
               <input type="url" name="dj-link">
             </div>
-          </div>
-          <div class="field">
-            <label>Genre / what you spin</label>
-            <input type="text" name="dj-genre">
+            <div class="field">
+              <label>Genre / what you spin</label>
+              <input type="text" name="dj-genre">
+            </div>
           </div>
           <div class="field">
             <label>Anything else we should know?</label>
@@ -1806,7 +1816,7 @@
         <div class="contact-item">
           <span class="ico">✉</span>
           <span>
-            <a href="mailto:pub@rice.edu">pub@rice.edu</a><br>
+            <a href="mailto:pubatrice@gmail.com">pubatrice@gmail.com</a><br>
             <span style="color: var(--ink-soft); font-size: 0.82rem;">for slower things</span>
           </span>
         </div>
@@ -1835,7 +1845,7 @@
     <div class="footer-wordmark">PUB AT RICE</div>
     <div class="footer-tagline">est. 1975 · still here, somehow.</div>
     <div class="footer-meta">
-      © Rice University Student-Run Businesses · made with love (and a hangover) by the marketing team
+      © Rice University Student-Run Businesses · made with love (and a hangover) by the marketing manager
     </div>
   </footer>
 
@@ -1884,89 +1894,109 @@
     });
 
     /* ============================================
-       Submit handler — opens user's email client
-       with a pre-filled message to the right manager
+       Submit handler — Formsubmit.co AJAX endpoint.
+       Routes each request type to the right manager.
+       No email client opens; user just sees a confirmation toast.
+       NOTE: each recipient must one-time confirm via Formsubmit
+       (see deploy notes).
        ============================================ */
     function submitBooking(e) {
       e.preventDefault();
       const form = e.target;
-      const data = new FormData(form);
       const activeTab = document.querySelector('.req-tab.active').dataset.req;
 
-      // Route each request type to the right manager
       const recipients = {
-        event: 'ml186@rice.edu',  // Matt — events
-        dj:    'ml186@rice.edu',  // Matt — events
-        keg:   'ntp5@rice.edu',   // Noah — product
-        other: 'gcv1@rice.edu',   // Gabi — GM (catch-all)
+        event: 'ml186@rice.edu',     // Matt — events
+        dj:    'ml186@rice.edu',     // Matt — events
+        keg:   'ntp5@rice.edu',      // Noah — product / kegs
+        other: 'pubatrice@gmail.com' // general inbox
       };
       const to = recipients[activeTab];
 
-      // Common contact info
-      const name  = (data.get('name')  || '').trim();
+      const data = new FormData(form);
+      const name = (data.get('name') || '').trim();
       const email = (data.get('email') || '').trim();
-      const org   = (data.get('org')   || '').trim();
-      const phone = (data.get('phone') || '').trim();
 
-      const header = [
-        `Name: ${name}`,
-        `Email / NetID: ${email}`,
-        org   ? `Org / College: ${org}`   : null,
-        phone ? `Phone: ${phone}`         : null,
-        '',
-      ].filter(x => x !== null);
+      const labels = {
+        event: 'EVENT', dj: 'DJ SLOT', keg: 'KEG ORDER', other: 'INQUIRY'
+      };
 
-      let subject = '';
-      let bodyLines = [];
+      // Build a readable payload
+      const payload = {
+        _subject: `[Pub at Rice] ${labels[activeTab]} request — ${name || 'no name'}`,
+        _captcha: 'false',
+        _template: 'table',
+        'Request Type': labels[activeTab],
+        'Name': name,
+        'Email / NetID': email,
+        'Org / College': (data.get('org')   || '').trim(),
+        'Phone':         (data.get('phone') || '').trim(),
+      };
 
       if (activeTab === 'event') {
-        subject = `Event request — ${name || 'Pub website'}`;
-        bodyLines = [
-          `Date: ${data.get('event-date')  || '—'}`,
-          `Headcount: ${data.get('event-count') || '—'}`,
-          `Start: ${data.get('event-start') || '—'}`,
-          `End:   ${data.get('event-end')   || '—'}`,
-          '',
-          'Details:',
-          data.get('event-details') || '',
-        ];
+        Object.assign(payload, {
+          'Date wanted':       data.get('event-date'),
+          'Expected headcount': data.get('event-count'),
+          'Start time':         data.get('event-start'),
+          'End time':           data.get('event-end'),
+          'Event details':      data.get('event-details'),
+        });
       } else if (activeTab === 'keg') {
-        subject = `Keg order — ${name || 'Pub website'}`;
-        bodyLines = [
-          `Date needed: ${data.get('keg-date')  || '—'}`,
-          `Number of kegs: ${data.get('keg-count') || '—'}`,
-          `Order: ${data.get('keg-beer') || '—'}`,
-        ];
+        Object.assign(payload, {
+          'Date needed':    data.get('keg-date'),
+          'Number of kegs': data.get('keg-count'),
+          'Order':          data.get('keg-beer'),
+        });
       } else if (activeTab === 'dj') {
-        subject = `DJ slot request — ${name || 'Pub website'}`;
-        bodyLines = [
-          `DJ name / handle: ${data.get('dj-name')  || '—'}`,
-          `Soundcloud / Mixcloud: ${data.get('dj-link')  || '—'}`,
-          `Genre: ${data.get('dj-genre') || '—'}`,
-          '',
-          'Notes:',
-          data.get('dj-notes') || '',
-        ];
+        Object.assign(payload, {
+          'DJ name / handle':  data.get('dj-name'),
+          'Which Thursday':    data.get('dj-date'),
+          'Soundcloud/Mixcloud': data.get('dj-link'),
+          'Genre':              data.get('dj-genre'),
+          'Notes':              data.get('dj-notes'),
+        });
       } else {
-        subject = `Inquiry — ${name || 'Pub website'}`;
-        bodyLines = [
-          'Details:',
-          data.get('other-details') || '',
-        ];
+        payload['Details'] = data.get('other-details');
       }
 
-      const body = [...header, ...bodyLines].join('\n');
-      const mailto = `mailto:${to}?subject=${encodeURIComponent(subject)}` +
-                     `&body=${encodeURIComponent(body)}`;
+      if (email) payload['_replyto'] = email;
 
-      // Open the user's mail client
-      window.location.href = mailto;
-
-      // Toast confirmation
       const toast = document.getElementById('toast');
-      toast.textContent = 'opening your email — hit send to finish!';
+      const submitBtn = form.querySelector('button[type="submit"]');
+      const originalBtn = submitBtn.textContent;
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'sending...';
+      toast.textContent = 'sending...';
       toast.classList.add('show');
-      setTimeout(() => toast.classList.remove('show'), 4200);
+
+      fetch(`https://formsubmit.co/ajax/${to}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      })
+      .then(r => r.json())
+      .then(res => {
+        const ok = res && (res.success === 'true' || res.success === true);
+        if (ok) {
+          toast.textContent = 'request submitted ✓  we\'ll be in touch';
+          form.reset();
+        } else {
+          toast.textContent = 'hmm, that didn\'t go through — try again or DM us on IG';
+        }
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalBtn;
+        setTimeout(() => toast.classList.remove('show'), 4500);
+      })
+      .catch(err => {
+        console.error(err);
+        toast.textContent = 'hmm, that didn\'t go through — try again or DM us on IG';
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalBtn;
+        setTimeout(() => toast.classList.remove('show'), 4500);
+      });
     }
 
     /* ============================================
