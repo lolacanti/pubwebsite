@@ -275,22 +275,6 @@
     .btn.alt { background: var(--dive-red); box-shadow: 4px 4px 0 var(--ink); }
     .btn.alt:hover { box-shadow: 6px 6px 0 var(--ink); }
 
-    .hero-hint {
-      position: absolute;
-      bottom: 2rem;
-      left: 50%;
-      transform: translateX(-50%);
-      font-family: 'Caveat', cursive;
-      font-size: 1.4rem;
-      color: var(--ink-soft);
-      text-align: center;
-      z-index: 5;
-      animation: bob 2.4s ease-in-out infinite;
-    }
-    @keyframes bob {
-      0%, 100% { transform: translate(-50%, 0); }
-      50%      { transform: translate(-50%, -8px); }
-    }
 
     /* ============================================
        STICKERS
@@ -1089,91 +1073,140 @@
     /* ============================================
        MOBILE / RESPONSIVE
        ============================================ */
+    @media (max-width: 880px) {
+      /* Stickers hidden on tablet+phone — desktop-only flair.
+         The artsy collage idea needs real estate to feel right. */
+      .sticker { display: none !important; }
+    }
+
     @media (max-width: 720px) {
-      section { padding: 4rem 1.25rem; }
-      .hero { padding: 2.5rem 1rem 4rem; min-height: auto; }
-      .hero-grid { min-height: 60vh; }
+      /* Tighter section padding */
+      section { padding: 3.5rem 1.25rem; }
+      .hero { padding: 2rem 1.25rem 3.5rem; min-height: auto; }
+      .hero-grid { min-height: auto; padding: 1.5rem 0 0.5rem; }
 
-      /* Hide middle-band stickers so they don't sit on top of the title */
-      .sticker.mobile-hide { display: none; }
-      /* Shrink remaining stickers + tuck them right into the corners */
-      .sticker { transform: scale(0.62) rotate(var(--mobile-rot, 0deg)); transform-origin: center; }
-      .sticker svg { display: block; }
+      /* Title: smaller + lighter shadow so it doesn't look chunky */
+      .hero-title {
+        font-size: clamp(3.4rem, 16vw, 5.5rem);
+        line-height: 0.95;
+        text-shadow: 4px 4px 0 var(--ink);
+      }
+      .hero-eyebrow { font-size: 1.4rem; margin-bottom: 0.6rem; }
+      .hero-sub { font-size: 0.82rem; padding: 0 0.25rem; max-width: 100%; }
 
-      /* Hide scroll hint on phones — touch users get it */
-      .hero-hint { display: none; }
-
-      /* Title gets a bit less line-height to feel tighter */
-      .hero-title { font-size: clamp(3.4rem, 16vw, 5.5rem); line-height: 0.95; }
-      .hero-title { text-shadow: 4px 4px 0 var(--ink); }
-      .hero-eyebrow { font-size: 1.4rem; }
-      .hero-sub { font-size: 0.78rem; padding: 0 0.5rem; }
-
-      /* Stack hero CTAs vertically */
+      /* Stack hero CTAs vertically and full-width-with-margin */
       .hero-cta {
         display: flex;
         flex-direction: column;
         gap: 0.7rem;
         width: 100%;
-        max-width: 280px;
-        margin-left: auto;
-        margin-right: auto;
+        max-width: 320px;
+        margin: 2rem auto 0;
       }
       .hero-cta .btn {
         width: 100%;
         text-align: center;
         font-size: 0.88rem;
-        padding: 0.85rem 1rem;
+        padding: 0.9rem 1rem;
       }
 
-      .section-title { font-size: clamp(2rem, 8vw, 3rem); }
+      /* Nav: pin brand left, hide links (already hidden on mobile in base CSS) */
+      nav.bar { padding: 0.7rem 1.25rem; }
+      .nav-brand { font-size: 1.05rem; }
 
-      /* Polaroids 2-col on phones (was auto-fit 200px which sometimes gave 1 col) */
+      /* Section titles smaller */
+      .section-title { font-size: clamp(2rem, 8vw, 2.6rem); margin-bottom: 0.4rem; }
+      .section-label { font-size: 0.7rem; padding: 3px 9px; }
+
+      /* Menu + hours stack with less padding */
+      .hours-card,
+      .menu-panel { padding: 1.4rem 1.2rem; }
+      .hours-card h3 { font-size: 2.2rem; }
+      .hours-list li { font-size: 0.85rem; padding: 0.45rem 0; }
+      .menu-tab { font-size: 0.7rem; padding: 7px 10px; }
+      .menu-item-name { font-size: 0.92rem; }
+      .menu-item-price { font-size: 0.82rem; }
+      .menu-subsection h5 { font-size: 1.35rem; }
+
+      /* Polaroids: 2 columns, smaller */
       .polaroids {
         grid-template-columns: repeat(2, 1fr);
         gap: 2rem 1rem;
-        padding-top: 1rem;
+        padding-top: 0.5rem;
       }
-      .polaroid { padding: 10px 10px 36px; }
-      .polaroid .name { font-size: 1.2rem; }
-      .polaroid .role { font-size: 0.62rem; }
+      .polaroid { padding: 10px 10px 32px; }
+      .polaroid .name { font-size: 1.15rem; }
+      .polaroid .role { font-size: 0.6rem; letter-spacing: 0.08em; }
+      .polaroid::before { width: 50px; height: 14px; top: -8px; }
 
-      /* Hours card + menu */
-      .hours-card { padding: 1.4rem; }
-      .menu-panel { padding: 1.4rem 1.2rem; }
-      .menu-item-name { font-size: 0.95rem; }
-      .menu-item-price { font-size: 0.85rem; }
+      /* Booking section: tighten everything */
+      #book { padding: 3.5rem 1.25rem; }
+      .book-intro h3 { font-size: 2rem; }
+      .book-intro p { font-size: 0.95rem; }
+      .slip { padding: 1.5rem 1.1rem; }
+      .slip-title { font-size: 1.1rem; }
+      .slip-no { font-size: 0.7rem; }
 
-      /* Booking slip */
-      .slip { padding: 1.5rem 1.2rem; }
+      /* Tab strip scrolls horizontally with 5 tabs */
       .req-tabs {
         flex-wrap: nowrap;
         overflow-x: auto;
-        margin-left: -1.2rem;
-        margin-right: -1.2rem;
-        padding: 0 1.2rem 6px;
+        margin: 0 -1.1rem 1.6rem;
+        padding: 4px 1.1rem 8px;
         scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
       }
       .req-tabs::-webkit-scrollbar { display: none; }
       .req-tab {
         flex: 0 0 auto;
-        min-width: 90px;
+        min-width: 92px;
         font-size: 0.7rem;
-        padding: 8px 10px;
+        padding: 8px 12px;
       }
 
-      /* Contact section */
-      .map { padding: 1.2rem; }
+      /* Keg menu: stack columns */
+      .keg-sizes { grid-template-columns: 1fr; gap: 0.7rem; }
+      .keg-empty-hint { display: none; }
+      .keg-section h6 { font-size: 1.2rem; }
+      .keg-items li { font-size: 0.78rem; }
+
+      /* Submit row: stack on phones */
+      .submit-row {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1rem;
+      }
+      .submit-row .stamp { align-self: center; }
+      .submit-row .btn.alt { width: 100%; text-align: center; }
+
+      /* Contact */
+      #contact { padding: 3.5rem 1.25rem; }
+      .map { padding: 1.2rem; transform: rotate(-0.5deg); }
+      .contact-info h3 { font-size: 2rem; }
+      .contact-item { font-size: 0.88rem; }
 
       /* Footer */
+      footer { padding: 2.5rem 1.25rem 1.5rem; }
       .footer-wordmark { font-size: clamp(1.8rem, 11vw, 3rem); }
       .footer-tagline { font-size: 1.1rem; }
+      .footer-meta { font-size: 0.62rem; line-height: 1.5; }
+
+      /* Toast: pull in from edges so it doesn't get clipped */
+      .toast { left: 1rem; right: 1rem; transform: translateY(120%); max-width: none; }
+      .toast.show { transform: translateY(0); }
     }
 
     @media (max-width: 420px) {
-      .polaroids { grid-template-columns: 1fr; gap: 2.5rem; max-width: 240px; margin-left: auto; margin-right: auto; }
-      .req-tab { min-width: 80px; }
-      .hero-title { font-size: clamp(3rem, 18vw, 4.5rem); }
+      .polaroids {
+        grid-template-columns: 1fr;
+        gap: 2.2rem;
+        max-width: 260px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .req-tab { min-width: 82px; padding: 7px 10px; }
+      .hero-title { font-size: clamp(2.8rem, 18vw, 4.2rem); }
+      .keg-size-col { padding: 0.7rem 0.8rem; }
     }
     footer {
       background: var(--ink);
@@ -1381,11 +1414,6 @@
         </svg>
       </div>
 
-      <!-- scroll hint -->
-      <div class="hero-hint">
-        <div>scroll down →</div>
-        <div style="font-size: 0.85rem; color: var(--dive-red); margin-top: -4px;">(stickers are draggable, btw)</div>
-      </div>
     </div>
   </section>
 
@@ -2025,18 +2053,12 @@
     });
 
     /* ============================================
-       Submit handler — Web3Forms API
-       (Reliable, free, no email-confirmation dance.)
-
-       SETUP (one-time):
-         1. Go to https://web3forms.com
-         2. Enter pubatrice@gmail.com → "Create Access Key"
-         3. Check the gmail inbox for the access key (arrives in <30 sec)
-         4. Paste it below as WEB3FORMS_KEY
-         5. Redeploy (git push to GitHub, Vercel auto-redeploys)
-
-       The free tier allows custom recipients via the `to` field,
-       so we route each request type to the right manager.
+       Submit handler — Web3Forms (free tier).
+       All submissions go to pubatrice@gmail.com. The subject
+       line prefixes WHICH manager should handle it, and the
+       email body starts with a FORWARD TO: line so it's
+       impossible to miss. Set up Gmail filters to auto-forward
+       if desired.
        ============================================ */
     const WEB3FORMS_KEY = '707d7495-2463-4e65-a10f-da12cd76d48d';
 
@@ -2045,54 +2067,53 @@
       const form = e.target;
       const activeTab = document.querySelector('.req-tab.active').dataset.req;
 
-      const recipients = {
+      // Who SHOULD handle each request type
+      const forwardTo = {
         event:  'ml186@rice.edu',      // Matt — events
         dj:     'ml186@rice.edu',      // Matt — events
-        trivia: 'ml186@rice.edu',      // Matt — events (trivia falls here)
+        trivia: 'ml186@rice.edu',      // Matt — events / trivia
         keg:    'ntp5@rice.edu',       // Noah — kegs
-        other:  'pubatrice@gmail.com', // general inbox
+        other:  'pubatrice@gmail.com', // general / Gabi
       };
       const labels = {
         event: 'EVENT', dj: 'DJ SLOT', keg: 'KEG ORDER',
         trivia: 'TRIVIA HOSTING', other: 'INQUIRY',
       };
-      const to    = recipients[activeTab];
-      const label = labels[activeTab];
+      const label    = labels[activeTab];
+      const handler  = forwardTo[activeTab];
 
       const data  = new FormData(form);
       const name  = (data.get('name')  || '').trim();
       const email = (data.get('email') || '').trim();
 
-      // Build Web3Forms payload as multipart/form-data
       const payload = new FormData();
-      payload.append('access_key',   WEB3FORMS_KEY);
-      payload.append('to',           to);          // custom recipient
-      payload.append('from_name',    'Pub at Rice');
-      payload.append('subject',      `[Pub at Rice] ${label} request — ${name || 'no name'}`);
+      payload.append('access_key', WEB3FORMS_KEY);
+      payload.append('subject',    `[Pub at Rice] ${label} → forward to ${handler}`);
+      payload.append('from_name',  'Pub at Rice website');
       if (email) payload.append('replyto', email);
 
-      // Common fields
-      payload.append('Request Type',  label);
-      payload.append('Name',          name);
-      payload.append('Email / NetID', email);
-      payload.append('Org / College', (data.get('org')   || '').trim());
-      payload.append('Phone',         (data.get('phone') || '').trim());
+      // The FIRST field is the forward-to instruction so it's at the top of the email
+      payload.append('⚠️ FORWARD TO',  handler);
+      payload.append('Request Type',   label);
+      payload.append('Name',           name);
+      payload.append('Email / NetID',  email);
+      payload.append('Org / College',  (data.get('org')   || '').trim());
+      payload.append('Phone',          (data.get('phone') || '').trim());
 
-      // Type-specific fields
       if (activeTab === 'event') {
-        payload.append('Date wanted',       data.get('event-date')    || '');
-        payload.append('Expected headcount', data.get('event-count')  || '');
-        payload.append('Start time',         data.get('event-start')  || '');
-        payload.append('End time',           data.get('event-end')    || '');
+        payload.append('Date wanted',        data.get('event-date')    || '');
+        payload.append('Expected headcount', data.get('event-count')   || '');
+        payload.append('Start time',         data.get('event-start')   || '');
+        payload.append('End time',           data.get('event-end')     || '');
         payload.append('Event details',      data.get('event-details') || '');
       } else if (activeTab === 'keg') {
         payload.append('Date needed',    data.get('keg-date')  || '');
         payload.append('Number of kegs', data.get('keg-count') || '');
         payload.append('Order',          data.get('keg-beer')  || '');
       } else if (activeTab === 'dj') {
-        payload.append('DJ name / handle',   data.get('dj-name')  || '');
-        payload.append('Which Thursday',     data.get('dj-date')  || '');
-        payload.append('Soundcloud/Mixcloud', data.get('dj-link') || '');
+        payload.append('DJ name / handle',    data.get('dj-name')  || '');
+        payload.append('Which Thursday',      data.get('dj-date')  || '');
+        payload.append('Soundcloud/Mixcloud', data.get('dj-link')  || '');
         payload.append('Genre',               data.get('dj-genre') || '');
         payload.append('Notes',               data.get('dj-notes') || '');
       } else if (activeTab === 'trivia') {
@@ -2112,32 +2133,22 @@
       toast.textContent = 'sending...';
       toast.classList.add('show');
 
-      // Sanity check the access key
-      if (!WEB3FORMS_KEY || WEB3FORMS_KEY.includes('PASTE_YOUR')) {
-        console.error('[Pub] Web3Forms access key is missing. Get one at https://web3forms.com and paste it into WEB3FORMS_KEY.');
-        toast.textContent = 'form not configured yet — DM us on IG';
-        submitBtn.disabled = false;
-        submitBtn.textContent = originalLabel;
-        setTimeout(() => toast.classList.remove('show'), 4500);
-        return;
-      }
-
       try {
         const r = await fetch('https://api.web3forms.com/submit', {
           method: 'POST',
           body: payload,
         });
         const res = await r.json();
-        console.log('[Pub] Form response:', res);
+        console.log('[Pub at Rice] form response:', res);
         if (res && (res.success === true || res.success === 'true')) {
           toast.textContent = 'request submitted ✓  we\'ll be in touch';
           form.reset();
         } else {
-          toast.textContent = `oops — ${res.message || 'try again'}`;
+          toast.textContent = `oops — ${(res && res.message) || 'try again'}`;
         }
       } catch (err) {
-        console.error('[Pub] Form submit error:', err);
-        toast.textContent = 'oops, network error — DM us on IG';
+        console.error('[Pub at Rice] submit error:', err);
+        toast.textContent = 'network error — DM us on IG @pubatrice';
       } finally {
         submitBtn.disabled = false;
         submitBtn.textContent = originalLabel;
