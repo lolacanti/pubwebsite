@@ -932,6 +932,38 @@
       margin-top: 0.6rem;
       opacity: 0.65;
     }
+
+    .keg-cadence {
+      background: var(--mustard);
+      color: var(--ink);
+      border: 1.5px solid var(--ink);
+      padding: 0.95rem 1.1rem;
+      margin-bottom: 1.3rem;
+      font-family: 'Spectral', serif;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      box-shadow: 3px 3px 0 var(--ink);
+      transform: rotate(-0.4deg);
+    }
+    .keg-cadence strong {
+      font-family: 'Alfa Slab One', serif;
+      font-size: 0.88em;
+      letter-spacing: 0.01em;
+    }
+    .keg-cadence a {
+      color: var(--dive-red);
+      border-bottom: 1.5px dashed var(--dive-red);
+      font-weight: 600;
+    }
+    .field-hint {
+      font-family: 'Caveat', cursive;
+      font-size: 1rem;
+      color: var(--dive-red);
+      font-weight: 600;
+      letter-spacing: 0;
+      text-transform: none;
+      margin-left: 4px;
+    }
     .keg-form-divider {
       display: flex;
       align-items: center;
@@ -1820,10 +1852,22 @@
 
           <div class="keg-form-divider"><span>Order below ↓</span></div>
 
+          <div class="keg-cadence">
+            <strong>Heads up — how our ordering works:</strong>
+            we place orders on <strong>Sundays</strong>, and the kegs
+            arrive on <strong>Wednesdays</strong>. So if you want something
+            for a Tuesday, you need to get your request in by the
+            <em>Sunday before that</em> (10 days ahead).
+            <br><br>
+            To be safe, we require all keg requests at least
+            <strong>10 days in advance</strong>. Questions?
+            Email <a href="mailto:pub.keg.orders@gmail.com">pub.keg.orders@gmail.com</a>.
+          </div>
+
           <div class="field-row">
             <div class="field">
-              <label>Date needed</label>
-              <input type="date" name="keg-date">
+              <label>Date needed <span class="field-hint" id="kegDateHint">(earliest: —)</span></label>
+              <input type="date" name="keg-date" id="kegDate">
             </div>
             <div class="field">
               <label>Number of kegs</label>
@@ -2053,6 +2097,26 @@
     });
 
     /* ============================================
+       Keg orders: enforce 10-day lead time
+       ============================================ */
+    (function kegLeadTime() {
+      const LEAD_DAYS = 10;
+      const dateInput = document.getElementById('kegDate');
+      const hint = document.getElementById('kegDateHint');
+      if (!dateInput || !hint) return;
+
+      const d = new Date();
+      d.setDate(d.getDate() + LEAD_DAYS);
+      const iso = d.toISOString().slice(0, 10);
+      dateInput.min = iso;
+
+      const pretty = d.toLocaleDateString('en-US', {
+        weekday: 'short', month: 'short', day: 'numeric'
+      });
+      hint.textContent = `(earliest: ${pretty})`;
+    })();
+
+    /* ============================================
        Submit handler — Web3Forms (free tier).
        All submissions go to pubatrice@gmail.com. The subject
        line prefixes WHICH manager should handle it, and the
@@ -2069,11 +2133,11 @@
 
       // Who SHOULD handle each request type
       const forwardTo = {
-        event:  'ml186@rice.edu',      // Matt — events
-        dj:     'ml186@rice.edu',      // Matt — events
-        trivia: 'ml186@rice.edu',      // Matt — events / trivia
-        keg:    'ntp5@rice.edu',       // Noah — kegs
-        other:  'pubatrice@gmail.com', // general / Gabi
+        event:  'pubatrice@gmail.com',       // main pub inbox
+        dj:     'pubatrice@gmail.com',       // main pub inbox
+        trivia: 'pubatrice@gmail.com',       // main pub inbox
+        keg:    'pub.keg.orders@gmail.com',  // dedicated keg orders inbox
+        other:  'pubatrice@gmail.com',       // main pub inbox
       };
       const labels = {
         event: 'EVENT', dj: 'DJ SLOT', keg: 'KEG ORDER',
@@ -2081,6 +2145,29 @@
       };
       const label    = labels[activeTab];
       const handler  = forwardTo[activeTab];
+
+      // Keg lead-time guard: require >= 10 days out.
+      if (activeTab === 'keg') {
+        const kegDateStr = form.querySelector('[name="keg-date"]').value;
+        if (!kegDateStr) {
+          const toast = document.getElementById('toast');
+          toast.textContent = 'pick a date — kegs need 10 days lead time';
+          toast.classList.add('show');
+          setTimeout(() => toast.classList.remove('show'), 3800);
+          return;
+        }
+        const picked = new Date(kegDateStr + 'T00:00:00');
+        const min = new Date();
+        min.setHours(0,0,0,0);
+        min.setDate(min.getDate() + 10);
+        if (picked < min) {
+          const toast = document.getElementById('toast');
+          toast.textContent = 'too soon — keg orders need 10 days lead time';
+          toast.classList.add('show');
+          setTimeout(() => toast.classList.remove('show'), 3800);
+          return;
+        }
+      }
 
       const data  = new FormData(form);
       const name  = (data.get('name')  || '').trim();
