@@ -1854,14 +1854,20 @@
 
           <div class="keg-cadence">
             <strong>Heads up — how our ordering works:</strong>
-            we place orders on <strong>Sundays</strong>, and the kegs
-            arrive on <strong>Wednesdays</strong>. So if you want something
-            for a Tuesday, you need to get your request in by the
-            <em>Sunday before that</em> (10 days ahead).
+            Submit your request by <strong>Saturday at midnight</strong>.
+            We place orders on <strong>Sundays</strong>, and kegs arrive
+            on <strong>Wednesdays</strong>.
             <br><br>
-            To be safe, we require all keg requests at least
-            <strong>10 days in advance</strong>. Questions?
-            Email <a href="mailto:pub.keg.orders@gmail.com">pub.keg.orders@gmail.com</a>.
+            <em>Example:</em> If you need a keg for Monday or Tuesday,
+            you need to submit by the Sunday 8–9 days before.
+            <br><br>
+            <strong>Pickup &amp; payment:</strong> bring a <strong>P-card</strong> —
+            you pay when you pick up. Pickup happens during our
+            <strong>operating hours</strong>, and the empty keg has to
+            be <strong>returned during operating hours</strong> too.
+            <br><br>
+            Questions? Email
+            <a href="mailto:pub.keg.orders@gmail.com">pub.keg.orders@gmail.com</a>.
           </div>
 
           <div class="field-row">
@@ -2097,20 +2103,36 @@
     });
 
     /* ============================================
-       Keg orders: enforce 10-day lead time
+       Keg orders: compute earliest-delivery date from
+       the weekly Saturday-midnight deadline / Wednesday-
+       delivery cycle. Any date before that is blocked.
        ============================================ */
+    function earliestKegDelivery(now = new Date()) {
+      // Next Saturday at 23:59:59 (deadline). If we're past this week's,
+      // roll to next Saturday.
+      const dow = now.getDay(); // 0=Sun ... 6=Sat
+      const daysToSat = (6 - dow + 7) % 7;
+      const deadline = new Date(now);
+      deadline.setDate(deadline.getDate() + daysToSat);
+      deadline.setHours(23, 59, 59, 999);
+      if (now > deadline) deadline.setDate(deadline.getDate() + 7);
+      // Wednesday after that deadline (Sat -> following Wed is +4 days)
+      const delivery = new Date(deadline);
+      delivery.setDate(delivery.getDate() + 4);
+      delivery.setHours(0, 0, 0, 0);
+      return delivery;
+    }
+
     (function kegLeadTime() {
-      const LEAD_DAYS = 10;
       const dateInput = document.getElementById('kegDate');
       const hint = document.getElementById('kegDateHint');
       if (!dateInput || !hint) return;
 
-      const d = new Date();
-      d.setDate(d.getDate() + LEAD_DAYS);
-      const iso = d.toISOString().slice(0, 10);
+      const earliest = earliestKegDelivery();
+      const iso = earliest.toISOString().slice(0, 10);
       dateInput.min = iso;
 
-      const pretty = d.toLocaleDateString('en-US', {
+      const pretty = earliest.toLocaleDateString('en-US', {
         weekday: 'short', month: 'short', day: 'numeric'
       });
       hint.textContent = `(earliest: ${pretty})`;
@@ -2146,25 +2168,26 @@
       const label    = labels[activeTab];
       const handler  = forwardTo[activeTab];
 
-      // Keg lead-time guard: require >= 10 days out.
+      // Keg lead-time guard: earliest delivery is the Wednesday
+      // following the next Saturday-midnight deadline.
       if (activeTab === 'keg') {
         const kegDateStr = form.querySelector('[name="keg-date"]').value;
+        const toast = document.getElementById('toast');
         if (!kegDateStr) {
-          const toast = document.getElementById('toast');
-          toast.textContent = 'pick a date — kegs need 10 days lead time';
+          toast.textContent = 'pick a date — see the earliest delivery hint';
           toast.classList.add('show');
           setTimeout(() => toast.classList.remove('show'), 3800);
           return;
         }
         const picked = new Date(kegDateStr + 'T00:00:00');
-        const min = new Date();
-        min.setHours(0,0,0,0);
-        min.setDate(min.getDate() + 10);
-        if (picked < min) {
-          const toast = document.getElementById('toast');
-          toast.textContent = 'too soon — keg orders need 10 days lead time';
+        const earliest = earliestKegDelivery();
+        if (picked < earliest) {
+          const pretty = earliest.toLocaleDateString('en-US', {
+            weekday: 'short', month: 'short', day: 'numeric'
+          });
+          toast.textContent = `too soon — earliest delivery is ${pretty}`;
           toast.classList.add('show');
-          setTimeout(() => toast.classList.remove('show'), 3800);
+          setTimeout(() => toast.classList.remove('show'), 4200);
           return;
         }
       }
