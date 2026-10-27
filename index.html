@@ -1175,27 +1175,40 @@
       .section-title { font-size: clamp(1.6rem, 7vw, 2.3rem); margin-bottom: 0.4rem; }
       .section-label { font-size: 0.7rem; padding: 3px 9px; }
 
+      #menu { padding: 3rem 1rem; }
+      .menu-wrap { gap: 1.5rem; max-width: 100%; }
       .hours-card,
-      .menu-panel { padding: 1.4rem 1.2rem; }
-      .hours-card h3 { font-size: 2.2rem; }
-      .hours-list li { font-size: 0.85rem; padding: 0.45rem 0; }
+      .menu-panel {
+        padding: 1.3rem 1rem;
+        max-width: 100%;
+        box-sizing: border-box;
+      }
+      .hours-card h3 { font-size: 2rem; }
+      .hours-list li { font-size: 0.82rem; padding: 0.45rem 0; }
+      .hours-card .footnote { font-size: 1rem; }
+
+      /* menu tabs wrap into 3+2 (same as request tabs) */
       .menu-tabs {
-        flex-wrap: nowrap;
-        overflow-x: auto;
-        margin: 0 -1.2rem 1.6rem;
-        padding: 2px 1.2rem 6px;
-        scrollbar-width: none;
+        flex-wrap: wrap;
+        overflow: visible;
+        margin: 0 0 1.2rem;
+        padding: 0;
+        gap: 4px;
+        justify-content: center;
       }
       .menu-tabs::-webkit-scrollbar { display: none; }
       .menu-tab {
-        flex: 0 0 auto;
-        min-width: 90px;
-        font-size: 0.72rem;
-        padding: 8px 12px;
+        flex: 1 1 calc(33.333% - 4px);
+        min-width: 0;
+        font-size: 0.66rem;
+        padding: 8px 4px;
+        text-align: center;
       }
-      .menu-item-name { font-size: 0.92rem; }
-      .menu-item-price { font-size: 0.82rem; }
-      .menu-subsection h5 { font-size: 1.35rem; }
+      .menu-item-name { font-size: 0.88rem; }
+      .menu-item-price { font-size: 0.78rem; }
+      .menu-item-note { font-size: 0.7rem; }
+      .menu-subsection h5 { font-size: 1.3rem; }
+      .menu-note { font-size: 1.05rem; }
 
       .polaroids { gap: 2rem 1rem; padding-top: 0.5rem; }
       .polaroid { flex: 0 0 calc(50% - 0.5rem); width: calc(50% - 0.5rem); }
