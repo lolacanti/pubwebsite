@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -347,6 +346,165 @@
       gap: 3rem;
       align-items: start;
     }
+
+    /* bartender of the month */
+    #bartender {
+      position: relative;
+      padding: 6rem 2rem;
+    }
+    .bartender-intro {
+      text-align: center;
+      max-width: 720px;
+      margin: 0 auto 3.5rem;
+    }
+    .bartender-tagline {
+      margin-top: 0.75rem;
+      font-family: 'Caveat', cursive;
+      font-size: 1.6rem;
+      color: var(--dive-red);
+      line-height: 1.1;
+    }
+    .bartender-card {
+      max-width: 1050px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1.25fr;
+      gap: 3.5rem;
+      align-items: start;
+    }
+    .bartender-photo-wrap {
+      position: relative;
+      max-width: 380px;
+      margin: 0 auto;
+      width: 100%;
+    }
+    .bartender-polaroid {
+      background: var(--foam);
+      padding: 16px 16px 54px;
+      box-shadow: 6px 10px 20px var(--shadow);
+      transform: rotate(-2deg);
+      position: relative;
+      transition: transform 0.3s ease;
+    }
+    .bartender-polaroid:hover { transform: rotate(0deg); }
+    .bartender-polaroid::before {
+      content: '';
+      position: absolute;
+      top: -14px;
+      left: 50%;
+      transform: translateX(-50%) rotate(-3deg);
+      width: 95px;
+      height: 24px;
+      background: var(--tape);
+      box-shadow: 0 1px 2px var(--shadow);
+    }
+    .bartender-polaroid .photo {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      background: var(--ink-soft);
+      overflow: hidden;
+      position: relative;
+    }
+    .bartender-polaroid .photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .bartender-polaroid .bartender-name {
+      margin-top: 18px;
+      text-align: center;
+      font-family: 'Caveat', cursive;
+      font-weight: 700;
+      font-size: 2.6rem;
+      color: var(--ink);
+      line-height: 1;
+    }
+    .bartender-stamp {
+      position: absolute;
+      top: -18px;
+      right: -22px;
+      background: var(--dive-red);
+      color: var(--foam);
+      font-family: 'Alfa Slab One', serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      padding: 9px 14px;
+      transform: rotate(8deg);
+      border: 2px solid var(--ink);
+      box-shadow: 3px 3px 0 var(--ink);
+      text-transform: uppercase;
+      z-index: 5;
+      white-space: nowrap;
+    }
+    .bartender-info { padding-top: 0.5rem; }
+    .bartender-blurb {
+      font-family: 'Spectral', serif;
+      font-style: italic;
+      font-size: 1.1rem;
+      color: var(--ink-soft);
+      line-height: 1.55;
+      margin-bottom: 2rem;
+      padding-left: 1.3rem;
+      border-left: 3px solid var(--dive-red);
+    }
+    .bartender-stat {
+      background: var(--foam);
+      border: 1.5px solid var(--ink);
+      padding: 1.1rem 1.3rem;
+      margin-bottom: 1.2rem;
+      box-shadow: 4px 4px 0 var(--dive-red);
+      position: relative;
+    }
+    .bartender-stat:last-child { margin-bottom: 0; }
+    .bartender-stat .stat-label {
+      display: block;
+      font-family: 'Special Elite', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+    }
+    .bartender-stat .stat-main {
+      font-family: 'Alfa Slab One', serif;
+      font-size: 1.5rem;
+      color: var(--ink);
+      margin-top: 0.3rem;
+      line-height: 1.15;
+    }
+    .bartender-stat .stat-detail {
+      margin-top: 0.6rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-family: 'Special Elite', monospace;
+      font-size: 0.9rem;
+      flex-wrap: wrap;
+    }
+    .bartender-stat .stat-detail .was {
+      text-decoration: line-through;
+      color: var(--ink-soft);
+    }
+    .bartender-stat .stat-detail .arrow { color: var(--dive-red); font-weight: 700; }
+    .bartender-stat .stat-detail .now { color: var(--ink); font-weight: 700; }
+    .bartender-stat .stat-detail .save-badge {
+      margin-left: auto;
+      background: var(--mustard);
+      color: var(--ink);
+      padding: 3px 10px;
+      font-family: 'Alfa Slab One', serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.05em;
+      border: 1.5px solid var(--ink);
+      transform: rotate(-2deg);
+      text-transform: uppercase;
+    }
+    .bartender-stat .stat-detail-plain {
+      font-style: italic;
+      font-family: 'Spectral', serif;
+      color: var(--ink-soft);
+    }
+
     @media (max-width: 880px) {
       .menu-wrap { grid-template-columns: 1fr; }
     }
@@ -1280,6 +1438,31 @@
       .toast { left: 1rem; right: 1rem; transform: translateY(120%); max-width: none; }
       .toast.show { transform: translateY(0); }
 
+
+      /* bartender of the month: stack */
+      #bartender { padding: 3rem 1rem; }
+      .bartender-intro { margin-bottom: 2rem; }
+      .bartender-tagline { font-size: 1.3rem; }
+      .bartender-card {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+        max-width: 100%;
+      }
+      .bartender-photo-wrap { max-width: 280px; margin: 0 auto; }
+      .bartender-polaroid { transform: rotate(-1deg); padding: 12px 12px 44px; }
+      .bartender-polaroid .bartender-name { font-size: 2.1rem; }
+      .bartender-stamp {
+        top: -12px;
+        right: -8px;
+        font-size: 0.65rem;
+        padding: 6px 10px;
+      }
+      .bartender-info { padding-top: 0; }
+      .bartender-blurb { font-size: 0.98rem; padding-left: 1rem; }
+      .bartender-stat { padding: 1rem 1rem; }
+      .bartender-stat .stat-main { font-size: 1.25rem; }
+      .bartender-stat .stat-detail .save-badge { margin-left: 0; }
+
       /* overflow safety on narrow viewports */
       section { overflow-x: hidden; max-width: 100vw; }
       .menu-wrap, .book-wrap, .contact-wrap { max-width: 100%; }
@@ -1652,10 +1835,58 @@
     </div>
   </section>
 
+
+
+  <section id="bartender">
+    <div class="bartender-intro">
+      <span class="section-label">04 // behind the bar</span>
+      <h2 class="section-title">bartender of the <span class="underline">month</span></h2>
+      <p class="bartender-tagline">this month we're pouring with&hellip;</p>
+    </div>
+
+    <div class="bartender-card">
+      <div class="bartender-photo-wrap">
+        <div class="bartender-polaroid">
+          <div class="photo">
+
+            <img src="philip.jpg" alt="Bartender of the Month" onerror="this.style.display='none'">
+          </div>
+          <div class="bartender-name">Philip</div>
+        </div>
+        <div class="bartender-stamp">&#9733; bartender of the month &#9733;</div>
+      </div>
+
+      <div class="bartender-info">
+        <p class="bartender-blurb">
+          I’m from Austin Texas and when I’m not behind the bar I love being outdoors, hiking, surfing, and vibing. If there’s a mountain, a body of water, or somewhere I probably shouldn’t be climbing, I’m interested. I love Pub because it’s a combo of great people, questionable decisions, and unforgettable nights. This is my first semester bartending!
+        </p>
+
+        <div class="bartender-stat">
+          <span class="stat-label">drink of the month</span>
+          <div class="stat-main">coors banquet</div>
+          <div class="stat-detail">
+            <span class="was">was $3.50</span>
+            <span class="arrow">&rarr;</span>
+            <span class="now">now $2.50</span>
+            <span class="save-badge">save $1</span>
+          </div>
+        </div>
+
+        <div class="bartender-stat">
+          <span class="stat-label">favorite pub night</span>
+          <div class="stat-main">halloween pub</div>
+          <div class="stat-detail stat-detail-plain">
+            <span>My favorite Pub night is halloween because there’s nothing better than serving drinks to people dressed like absolute freaks.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- bookings — request slip -->
   <section id="book">
     <div style="max-width: 1100px; margin: 0 auto;">
-      <span class="section-label">04 // book pub at rice</span>
+      <span class="section-label">05 // book pub at rice</span>
       <h2 class="section-title" style="color: var(--foam);">throw it <span class="underline">at our place</span>.</h2>
     </div>
 
@@ -1956,7 +2187,7 @@
   <!-- contact -->
   <section id="contact">
     <div style="max-width: 1100px; margin: 0 auto 3rem;">
-      <span class="section-label">05 // find us</span>
+      <span class="section-label">06 // find us</span>
       <h2 class="section-title">come <span class="underline">downstairs</span></h2>
     </div>
 
